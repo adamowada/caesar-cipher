@@ -2,7 +2,6 @@ import re
 
 def encrypt(plaintext, key):
     encrypted_text = ''
-
     alphabet = {
       0: 'a',
       1: 'b',
@@ -31,7 +30,6 @@ def encrypt(plaintext, key):
       24: 'y',
       25: 'z'
     }
-
     for char in plaintext:
         if re.match('[a-z]', char.lower()):
             letter_key = 0
@@ -41,7 +39,6 @@ def encrypt(plaintext, key):
             encrypted_text += alphabet[(letter_key + key) % 25]
         else:
             encrypted_text += char
-
     return encrypted_text
 
 
@@ -52,39 +49,25 @@ def decrypt(ciphertext, key):
 def code_breaker(ciphertext, key):
     guessed_key = 0
     largest_tracker = 0
-    with open('./wordlist_10000.txt', 'r') as dictionary:
-        for i in range(2):
-            tracker = 0
-            for cipher_word in ciphertext.split():
-                print(cipher_word)
-                print(decrypt(cipher_word, i))
+    split_ciphertext = ciphertext.split()
+    for i in range(26):
+        tracker = 0
+        for cipher_word in split_ciphertext:
+            with open('./wordlist_10000.txt', 'r') as dictionary:
                 for word in dictionary:
-                    if word == f'{decrypt(cipher_word, i)}':
+                    if word == f'{decrypt(cipher_word, i)}\n':
                         tracker += 1
-            print(f'for key: {i}, the tracker is {tracker}')
-            if tracker > largest_tracker:
-                largest_tracker = tracker
-                guessed_key = i
+        if tracker > largest_tracker:
+            largest_tracker = tracker
+            guessed_key = i
     if guessed_key == key:
         print(f'The computer guessed the key correctly. The key was {key}. The guessed key was {guessed_key}. The ciphertext was {ciphertext}. The plaintext was {decrypt(ciphertext, key)}.')
         return
     else:
         print('The computer guessed the wrong key.')
-        return    
+        return
 
 
-def split_check(sentence):
-    for i in sentence.split():
-        print(i)
-    for i in range(26):
-        print(i)
-
-# print(encrypt('adam owada 1235 was here! ! lol', 30))
-# print(decrypt('fifr tcfif 1235 cfx mjwj! ! qtq', 30))
-
-# code_breaker('house')
-
-# split_check('asdfa asdfa ddd asd eee.')
-
-print(encrypt('house boat car dog cat liter', 1))
-code_breaker('ipvtf cpbu dbs eph dbu mjufs', 1)
+print(encrypt('house boat car dog cat liter', 24))
+# code_breaker('ipvtf cpbu dbs eph dbu mjufs', 1)
+code_breaker('gntrd anys byq cnf bys khsdq', 24)
