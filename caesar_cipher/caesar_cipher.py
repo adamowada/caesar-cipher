@@ -50,24 +50,29 @@ def code_breaker(ciphertext, key):
     guessed_key = 0
     largest_tracker = 0
     split_ciphertext = ciphertext.split()
-    for i in range(26):
+    dictionary = open('./wordlist_10000.txt', 'r')
+    for i in range(2):
+        print(i)
         tracker = 0
         for cipher_word in split_ciphertext:
-            with open('./wordlist_10000.txt', 'r') as dictionary:
-                for word in dictionary:
-                    if word == f'{decrypt(cipher_word, i)}\n':
-                        tracker += 1
+            print(cipher_word)
+            for word in dictionary:
+                print(word)
+                if word == f'{decrypt(cipher_word, i)}\n':
+                    tracker += 1
         if tracker > largest_tracker:
             largest_tracker = tracker
             guessed_key = i
     if guessed_key == key:
         print(f'The computer guessed the key correctly. The key was {key}. The guessed key was {guessed_key}. The ciphertext was {ciphertext}. The plaintext was {decrypt(ciphertext, key)}.')
+        dictionary.close()
         return
     else:
         print('The computer guessed the wrong key.')
+        dictionary.close()
         return
 
 
-print(encrypt('house boat car dog cat liter', 24))
-# code_breaker('ipvtf cpbu dbs eph dbu mjufs', 1)
-code_breaker('gntrd anys byq cnf bys khsdq', 24)
+# print(encrypt('house boat car dog cat liter', 1))
+code_breaker('ipvtf cpbu dbs eph dbu mjufs', 1)
+# code_breaker('gntrd anys byq cnf bys khsdq', 1)
